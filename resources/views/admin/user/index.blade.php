@@ -27,11 +27,13 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone }}</td>
-                        <td><img src="{{ asset('storage/' . $user->image) }}" alt="image" height="50"
-                                width="50"></td>
+                        <td><img src="{{ $user->image != null ? asset('storage/' . $user->image) : asset('assets/images/profile.jpg') }}"
+                                alt="image" height="50" width="50"></td>
                         <td>{{ $user->status }}</td>
                         <td><a href="#" type="button" class="btn btn-success btn-sm editbtn openModal"
-                                data-toggle="modal" data-title="Edit User"  data-url="{{ route('user.edit',$user->id) }}" data-type="GET" data-id={{ $user->id }}>Edit</a> <a href="#" type="button"
+                                data-toggle="modal" data-title="Edit User"
+                                data-url="{{ route('user.edit', $user->id) }}" data-type="GET"
+                                data-id={{ $user->id }}>Edit</a> <a href="#" type="button"
                                 class="btn btn-danger btn-sm deletebtn" data-id="{{ $user->id }}">Delete</a></td>
                     </tr>
                 @endforeach
@@ -55,7 +57,9 @@
                 formData.append("phone", $("#phone").val());
                 formData.append("password", $("#password").val());
                 var photo = $('#image').prop('files')[0];
-                formData.append('image', photo);
+                if (photo != undefined) {
+                    formData.append('image', photo);
+                }
                 // formData.append("image",$("#image").val());
                 formData.append("status", $("#status").val());
                 $.ajax({
@@ -74,6 +78,12 @@
                             window.location.reload();
                         }, 1000);
                     },
+                     error: function(xhr) {
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(field, messages) {
+                            $('#' + field).after(`<div class="text-danger">${messages[0]}</div>`);
+                        });
+                    }
                 });
             });
             $(document).on("click", ".deletebtn", function() {
@@ -103,25 +113,26 @@
                     }
                 });
             })
-             $('#exampleModal').on("submit", "#updateUserForm", function(e) {
+            $('#exampleModal').on("submit", "#updateUserForm", function(e) {
                 e.preventDefault();
                 let url = $(this).data("url");
                 let data = new FormData();
-                data.append("_method",'PUT');
+                data.append("_method", 'PUT');
                 data.append("id", $("#updateUserForm #id").val());
                 data.append("name", $("#updateUserForm #name").val());
                 data.append("email", $("#updateUserForm #email").val());
                 data.append("phone", $("#updateUserForm #phone").val());
                 data.append("password", $("#updateUserForm #password").val());
                 var photo = $('#updateUserForm #image').prop('files')[0];
-                data.append('image', photo);
-                // formData.append("image",$("#image").val());
+                if (photo != undefined) {
+                    data.append('image', photo);
+                }
                 data.append("status", $("#updateUserForm #status").val());
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: data,
-                    contentType:'multipart/form-data',
+                    contentType: 'multipart/form-data',
                     cache: false,
                     contentType: false,
                     processData: false,
@@ -133,6 +144,12 @@
                             window.location.reload();
                         }, 1000);
                     },
+                    error: function(xhr) {
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(field, messages) {
+                            $('#' + field).after(`<div class="text-danger">${messages[0]}</div>`);
+                        });
+                    }
                 });
             });
         </script>

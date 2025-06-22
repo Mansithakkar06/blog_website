@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'phone' => 'required|digits:10|unique:users,phone',
-            'image' => 'required|mimes:png,jpg',
+            'image' => 'sometimes|mimes:png,jpg',
             'status' => 'required',
         ];
         case 'PUT':
@@ -38,7 +38,7 @@ class UserRequest extends FormRequest
             'email' => 'required|email|unique:users,email,'.$this->id,
             'password' => 'required',
             'phone' => 'required|digits:10|unique:users,phone,'.$this->id,
-            'image' => 'required|mimes:png,jpg',
+            'image' => 'sometimes|mimes:png,jpg',
             'status' => 'required',
         ];
     }

@@ -13,6 +13,6 @@ Route::get('/user', [UserController::class, 'index'])->name('user.index');
 Route::post('user/create', [UserController::class, 'create'])->name('user.create');
 Route::post('user/add', [UserController::class, 'store'])->name('user.store');
 Route::get('user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
-Route::put('user/update', [UserController::class, 'update'])->name('user.update');
+Route::put('user/update/{user}', [UserController::class, 'update'])->name('user.update');
 Route::delete('user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
 

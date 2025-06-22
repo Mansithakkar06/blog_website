@@ -1,5 +1,5 @@
  <form action="" enctype="multipart/form-data" data-url="{{ route('user.store') }}" id="addUserForm">
-    
+
      <div class="row">
          <div class="col-md-12 mb-2">
              <label for="name">Name</label>
@@ -31,7 +31,7 @@
          </div>
          <div class="col-md-12 mb-2">
              <label for="user_image">Image</label>
-             <input type="file" name="image" id="image" class="form-control" required>
+             <input type="file" name="image" id="image" class="form-control">
               @error('image')
                  <div class="text-danger">{{ $message }}</div>
              @enderror

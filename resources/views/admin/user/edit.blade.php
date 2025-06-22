@@ -1,5 +1,4 @@
- <form action="" enctype="multipart/form-data" data-url="{{ route('user.update') }}" id="updateUserForm">
-     <div class="row">
+ <form action="" enctype="multipart/form-data" data-url="{{ route('user.update',$user->id) }}" id="updateUserForm">
          <div class="col-md-12 mb-2">
              <label for="name">Name</label>
              <input type="hidden" name="id" id="id" value="{{ $user->id }}">
@@ -31,7 +30,7 @@
          </div>
          <div class="col-md-12 mb-2">
              <label for="user_image">Image</label>
-             <input type="file" name="image" id="image" value="{{ $user->image }}" class="form-control" required>
+             <input type="file" name="image" id="image" value="{{ $user->image }}" class="form-control">
               @error('image')
                  <div class="text-danger">{{ $message }}</div>
              @enderror
