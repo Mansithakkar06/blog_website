@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,4 @@ Route::put('user/update/{user}', [UserController::class, 'update'])->name('user.
 Route::delete('user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
 Route::resource('category', CategoryController::class);
+Route::resource('post',PostController::class);
