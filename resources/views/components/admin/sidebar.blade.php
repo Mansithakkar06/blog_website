@@ -14,5 +14,7 @@
             <!-- Nav Item - Dashboard -->
            <x-admin.menu-items title="Dashboard" icon="tachometer-alt" url="/" path="/"/>
            <x-admin.menu-items title="User" icon="table" url="{{route('user.index')}}" path="user"/>
+           <x-admin.menu-items title="Category" icon="table" url="{{route('category.index')}}" path="category"/>
+
 
         </ul>

@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$this->id,
-            'password' => 'required',
+            'password' => 'sometimes',
             'phone' => 'required|digits:10|unique:users,phone,'.$this->id,
             'image' => 'sometimes|mimes:png,jpg',
             'status' => 'required',

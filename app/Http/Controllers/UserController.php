@@ -14,8 +14,8 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users=User::all();
-            return view('admin.user.index',compact('users'));
+            $users = User::all();
+            return view('admin.user.index', compact('users'));
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -36,8 +36,7 @@ class UserController extends Controller
     {
         try {
             $attributes = $request->validated();
-            if($request->hasFile('image'))
-            {
+            if ($request->hasFile('image')) {
                 $attributes['image'] = $request->file('image')->store('images/users', 'public');
             }
             User::create($attributes);
@@ -61,8 +60,8 @@ class UserController extends Controller
     public function edit(string $id)
     {
         try {
-            $user=User::where('id',$id)->first();
-            return view('admin.user.edit',compact('user'));
+            $user = User::where('id', $id)->first();
+            return view('admin.user.edit', compact('user'));
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -71,32 +70,26 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request,User $user)
+    public function update(UserRequest $request, User $user)
     {
         try {
             $attributes = $request->validated();
-            if($user->image!=''){
-                $path=public_path('storage/'.$user->getRawOriginal('image'));
-                if($request->hasFile('image'))
-                {
-                    if($user->getRawOriginal('image') && file_exists($path))
-                    {
-                        unlink($path);
-                    }
-                    $attributes['image'] = $request->file('image')->store('images/users', 'public');
-
-                }
-                else{
-                    if($request->hasFile('image')){
+            if($request->password==null)
+            {
+                unset($attributes['password']);
+            }
+            if ($request->hasFile('image'))
+                if ($user->image != '') { {
+                        $path = public_path('storage/' . $user->getRawOriginal('image'));
+                        if (file_exists($path)) {
+                            unlink($path);
+                        }
                         $attributes['image'] = $request->file('image')->store('images/users', 'public');
                     }
                 }
-
-            }
-            $user=User::where('id',$user->id)->first();
             $user->update($attributes);
             return response()->json("user updated successfully");
-         } catch (Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -107,18 +100,16 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         try {
-            $user=User::where('id',$id)->first();
-            if($user->image!='')
-            {
-                $path=public_path('storage/'.$user->getRawOriginal('image'));
-                if($user->getRawOriginal('image') && file_exists($path))
-                {
+            $user = User::where('id', $id)->first();
+            if ($user->image != '') {
+                $path = public_path('storage/' . $user->getRawOriginal('image'));
+                if (file_exists($path)) {
                     unlink($path);
                 }
             }
             $user->delete();
             return true;
-       } catch (Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }

@@ -3,7 +3,7 @@
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary openModal" data-toggle="modal" data-title="Add User"
         data-url="{{ route('user.create') }}" data-type="POST">
-        Add User
+        ADD
     </button>
     <br>
     <br>
@@ -56,7 +56,7 @@
                 formData.append("email", $("#email").val());
                 formData.append("phone", $("#phone").val());
                 formData.append("password", $("#password").val());
-                var photo = $('#image').prop('files')[0];
+                let photo = $('#image').prop('files')[0];
                 if (photo != undefined) {
                     formData.append('image', photo);
                 }
