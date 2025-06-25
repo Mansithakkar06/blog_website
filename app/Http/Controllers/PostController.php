@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('admin.post.index');
+        $posts=Post::with('categories')->get();
+        return view('admin.post.index',compact('posts'));
     }
 
     /**
@@ -29,9 +32,18 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        $attributes=$request->validated();
+        unset($attributes['category_id']);
+        if($request->hasFile('image'))
+        {
+            $attributes['image']=$request->file('image')->store("images/post","public");
+        }
+        $attributes['user_id']=19;
+        $post=Post::create($attributes);
+        $post->categories()->attach($request->category_id);
+        return redirect('post')->with("success","Post Added Successfully");
     }
 
     /**

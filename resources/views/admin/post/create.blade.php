@@ -2,7 +2,8 @@
     <x-admin.page-title title="Add Post" />
     <div class="card">
         <div class="card-body">
-            <form action="">
+            <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="row">
                     <div class="col">
                         <label for="title">Title</label><span class="text-danger">*</span>
@@ -34,6 +35,7 @@
                     <div class="col">
                         <label for="image">Image</label><span class="text-danger">*</span>
                         <input type="file" name="image" id="image" class="form-control" required>
+                        <input type="hidden" name="user_id" id="user_id">
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -46,15 +48,7 @@
                             <option value="unpublished">Unpublished</option>
                         </select>
                     </div>
-                    <div class="col">
-                        <label for="user_id">User</label><span class="text-danger">*</span>
-                        <select name="user_id" id="user_id" class="form-control" required>
-                            <option value="">Select User</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+
                 </div>
                 <div class="row mt-3">
                     <div class="col">
