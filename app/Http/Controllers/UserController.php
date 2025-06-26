@@ -6,6 +6,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+
 class UserController extends Controller
 {
     /**
@@ -74,8 +75,7 @@ class UserController extends Controller
     {
         try {
             $attributes = $request->validated();
-            if($request->password==null)
-            {
+            if ($request->password == null) {
                 unset($attributes['password']);
             }
             if ($request->hasFile('image'))
@@ -108,7 +108,7 @@ class UserController extends Controller
                 }
             }
             $user->delete();
-            return true;
+            return response()->json("user deleted successfully");
         } catch (Exception $e) {
             return $e->getMessage();
         }

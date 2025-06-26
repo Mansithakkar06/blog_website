@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories=Category::all();
-        return view('admin.category.index',compact('categories'));
+        $categories = Category::all();
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -31,10 +32,10 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $attributes=$request->validated();
-        if($request->hasFile('image'))
-        {
-            $attributes['image']=$request->file('image')->store("images/category","public");
+        $attributes = $request->validated();
+        $attributes['slug'] = Str::slug($request->name);
+        if ($request->hasFile('image')) {
+            $attributes['image'] = $request->file('image')->store("images/category", "public");
         }
         Category::create($attributes);
         return response()->json("category added successfully");
@@ -53,8 +54,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category=Category::where('id',$id)->first();
-        return view('admin.category.edit',compact('category'));
+        $category = Category::where('id', $id)->first();
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -62,15 +63,16 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $attributes=$request->validated();
-        if($request->hasFile('image')){
-            if($category->image!=''){
-                $path=public_path('storage/'.$category->getRawOriginal('image'));
-                if(file_exists($path)){
+        $attributes = $request->validated();
+        $attributes['slug'] = Str::slug($request->name);
+        if ($request->hasFile('image')) {
+            if ($category->image != '') {
+                $path = public_path('storage/' . $category->getRawOriginal('image'));
+                if (file_exists($path)) {
                     unlink($path);
                 }
             }
-            $attributes['image']=$request->file('image')->store("images/category","public");
+            $attributes['image'] = $request->file('image')->store("images/category", "public");
         }
         $category->update($attributes);
         return response()->json("Category Updated Successfully");
@@ -81,10 +83,10 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category=Category::where('id',$id)->first();
-        if($category->image!=null){
-            $path=public_path('storage/'.$category->getRawOriginal('image'));
-            if(file_exists($path)){
+        $category = Category::where('id', $id)->first();
+        if ($category->image != null) {
+            $path = public_path('storage/' . $category->getRawOriginal('image'));
+            if (file_exists($path)) {
                 unlink($path);
             }
         }

@@ -1,5 +1,5 @@
     <!-- Bootstrap core JavaScript-->
-    <script src="{{asset('jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('jquery/jquery.js')}}"></script>
     <script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Core plugin JavaScript-->
@@ -7,6 +7,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
+    <script src="{{asset('js/select2.min.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
 
 
@@ -18,4 +19,10 @@
     <script src="{{asset('js/demo/chart-pie-demo.js')}}"></script>
     <script src="{{ asset('js/toastr.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
+    <script>
+        @if (Session::has('success'))
+        toastr.success('{{Session::get('success')}}');
+    @endif
+    </script>
+
 @stack('script')

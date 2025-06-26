@@ -7,7 +7,7 @@
     </button>
     <br>
     <br>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="usertable">
         <thead class="thead-light">
             <tr>
                 <th scope="col">id</th>
@@ -74,9 +74,7 @@
                     success: function(res) {
                         $("#exampleModal").modal("hide");
                         toastr.success(res);
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
+                        $("#usertable").load(location.href + " #usertable");
                     },
                      error: function(xhr) {
                         let errors = xhr.responseJSON.errors;
@@ -103,11 +101,12 @@
                         $.ajax({
                             type: "DELETE",
                             url: url,
-                            success: function() {
-                                toastr.success("user deleted successfully");
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 500);
+                            success: function(res) {
+                                toastr.success(res);
+                                $("#usertable").load(location.href + " #usertable");
+                            },
+                            error:function(res){
+                                toastr.error(res);
                             }
                         })
                     }
@@ -140,9 +139,8 @@
                     success: function(res) {
                         $("#exampleModal").modal("hide");
                         toastr.success(res);
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
+                        $("#usertable").load(location.href + " #usertable");
+
                     },
                     error: function(xhr) {
                         let errors = xhr.responseJSON.errors;

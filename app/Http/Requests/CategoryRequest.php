@@ -25,17 +25,15 @@ class CategoryRequest extends FormRequest
         switch ($method) {
             case "POST":
                 return [
-                    'name'=>'required',
-                    'slug'=>'required|unique:categories,slug',
-                    'image'=>'sometimes|mimes:png,jpg',
-                    'status'=>'required',
+                    'name' => 'required',
+                    'image' => 'sometimes|mimes:png,jpg',
+                    'status' => 'required',
                 ];
             case "PUT":
-                 return [
-                    'name'=>'required',
-                    'slug'=>'required|unique:categories,slug,'.$this->id,
-                    'image'=>'sometimes|mimes:png,jpg',
-                    'status'=>'required',
+                return [
+                    'name' => 'required',
+                    'image' => 'sometimes|mimes:png,jpg',
+                    'status' => 'required',
                 ];
         }
     }

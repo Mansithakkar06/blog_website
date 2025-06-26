@@ -4,7 +4,7 @@
         data-url="{{ route('category.create') }}" data-type="GET">ADD</button>
     <br>
     <br>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="cattable">
         <thead class="thead-light">
             <tr>
                 <th scope="col">id</th>
@@ -16,19 +16,26 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($categories as $category)
+            @if (count($categories) != 0)
+                @foreach ($categories as $category)
+                    <tr>
+                        <th scope="row">{{ $category->id }}</th>
+                        <td>{{ $category->name }}</td>
+                        <td>{{ $category->slug }}</td>
+                        <td><img src="{{ $category->image != null ? asset('storage/' . $category->image) : asset('assets/images/profile.jpg') }}"
+                                height="50px" width="50px" alt="image"> </td>
+                        <td>{{ $category->status }}</td>
+                        <td><a href="#" type="button" class="btn btn-success btn-sm openModal"
+                                data-url="{{ route('category.edit', $category->id) }}"
+                                data-title="Edit Category">Edit</a> <a href="#" data-id="{{ $category->id }}"
+                                class="btn btn-danger btn-sm dltbtn">Delete</a></td>
+                    </tr>
+                @endforeach
+            @else
                 <tr>
-                    <th scope="row">{{ $category->id }}</th>
-                    <td>{{ $category->name }}</td>
-                    <td>{{ $category->slug }}</td>
-                    <td><img src="{{ $category->image != null ? asset('storage/' . $category->image) : asset('assets/images/profile.jpg') }}"
-                            height="50px" width="50px" alt="image"> </td>
-                    <td>{{ $category->status }}</td>
-                    <td><a href="#" type="button" class="btn btn-success btn-sm openModal"
-                            data-url="{{ route('category.edit', $category->id) }}" data-title="Edit Category">Edit</a> <a
-                            href="#" data-id="{{ $category->id }}" class="btn btn-danger btn-sm dltbtn">Delete</a></td>
+                    <td colspan="6" style="text-align: center;">No Record Found!!</td>
                 </tr>
-            @endforeach
+            @endif
 
         </tbody>
     </table>
@@ -56,9 +63,8 @@
                     success: function(res) {
                         $("#exampleModal").modal("hide");
                         toastr.success(res);
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
+                        $("#cattable").load(location.href + " #cattable");
+
                     },
                     error: function(xhr) {
                         let errors = xhr.responseJSON.errors;
@@ -73,8 +79,8 @@
                 e.preventDefault();
                 let url = $(this).data("url");
                 let formData = new FormData();
-                formData.append("_method","PUT");
-                formData.append("id",$("#id").val());
+                formData.append("_method", "PUT");
+                formData.append("id", $("#id").val());
                 formData.append("name", $("#name").val());
                 formData.append("slug", $("#slug").val());
                 let photo = $("#image").prop('files')[0];
@@ -83,34 +89,33 @@
                 }
                 formData.append("status", $("#status").val());
                 $.ajax({
-                    type:"POST",
-                    url:url,
-                    data:formData,
-                    contentType:'multipart/form-data',
-                    cache:false,
-                    contentType:false,
-                    processData:false,
-                    success:function(res){
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    contentType: 'multipart/form-data',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(res) {
                         $("#exampleModal").modal("hide");
                         toastr.success(res);
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
+                        $("#cattable").load(location.href + " #cattable");
+
                     },
-                    error:function(xhr){
-                        let errors=xhr.responseJSON.errors;
-                        $.each(errors,function(field,messages){
-                            $("#"+field).after(`<div class="text-danger">${messages[0]}</div>`);
+                    error: function(xhr) {
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(field, messages) {
+                            $("#" + field).after(`<div class="text-danger">${messages[0]}</div>`);
                         })
                     }
                 })
 
             })
-            $(document).on("click",".dltbtn",function(){
-                let id=$(this).data("id");
-                let url="{{ route('category.destroy','/id') }}";
-                url=url.replace('/id',id);
-                 Swal.fire({
+            $(document).on("click", ".dltbtn", function() {
+                let id = $(this).data("id");
+                let url = "{{ route('category.destroy', '/id') }}";
+                url = url.replace('/id', id);
+                Swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to revert this!",
                     icon: "warning",
@@ -121,15 +126,13 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            type:"DELETE",
-                            url:url,
-                            success:function(res){
+                            type: "DELETE",
+                            url: url,
+                            success: function(res) {
                                 toastr.success(res);
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 500);
+                                $("#cattable").load(location.href + " #cattable");
                             },
-                            error:function(res){
+                            error: function(res) {
                                 toastr.error(res);
                             }
                         })

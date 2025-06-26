@@ -7,3 +7,4 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
