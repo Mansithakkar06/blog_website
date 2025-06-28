@@ -25,7 +25,7 @@
                             height="50px" width="50px" alt="image"> </td>
                     <td>{{ $category->status }}</td>
                     <td><a href="#" type="button" class="btn btn-success btn-sm openModal"
-                            data-url="{{ route('category.edit', $category->id) }}" data-title="Edit Category">Edit</a> <a
+                            data-url="{{ route('category.edit', $category->id) }}" data-title="Edit Category"><i class="fas fa-edit"></i></a> <a
                             href="#" data-id="{{ $category->id }}" class="btn btn-danger btn-sm dltbtn">Delete</a></td>
                 </tr>
             @endforeach
