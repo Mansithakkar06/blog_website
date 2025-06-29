@@ -7,7 +7,7 @@
     </button>
     <br>
     <br>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="usertable">
         <thead class="thead-light">
             <tr>
                 <th scope="col">id</th>
@@ -29,12 +29,13 @@
                         <td>{{ $user->phone }}</td>
                         <td><img src="{{ $user->image != null ? asset('storage/' . $user->image) : asset('assets/images/profile.jpg') }}"
                                 alt="image" height="50" width="50"></td>
-                        <td>{{ $user->status }}</td>
+                        <td><span class="badge {{ $user->status=="active"?'text-bg-success':'text-bg-danger' }} ">{{ $user->status }}</span></td>
                         <td><a href="#" type="button" class="btn btn-success btn-sm editbtn openModal"
                                 data-toggle="modal" data-title="Edit User"
                                 data-url="{{ route('user.edit', $user->id) }}" data-type="GET"
-                                data-id={{ $user->id }}>Edit</a> <a href="#" type="button"
-                                class="btn btn-danger btn-sm deletebtn" data-id="{{ $user->id }}">Delete</a></td>
+                                data-id={{ $user->id }}><i class="fas fa-edit"></i></a> <a href="#" type="button"
+                                class="btn btn-danger btn-sm deletebtn" data-id="{{ $user->id }}"><i class="fa fa-trash" aria-hidden="true"></i>
+</a></td>
                     </tr>
                 @endforeach
             @else
@@ -74,9 +75,10 @@
                     success: function(res) {
                         $("#exampleModal").modal("hide");
                         toastr.success(res);
+                        // $("#usertable").load(location.href + " #usertable");
                         setTimeout(() => {
                             window.location.reload();
-                        }, 1000);
+                        }, 500);
                     },
                      error: function(xhr) {
                         let errors = xhr.responseJSON.errors;
@@ -103,11 +105,15 @@
                         $.ajax({
                             type: "DELETE",
                             url: url,
-                            success: function() {
-                                toastr.success("user deleted successfully");
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 500);
+                            success: function(res) {
+                                toastr.success(res);
+                                // $("#usertable").load(location.href + " #usertable");
+                                    setTimeout(() => {
+                            window.location.reload();
+                        }, 500);
+                            },
+                            error:function(res){
+                                toastr.error(res);
                             }
                         })
                     }
@@ -140,9 +146,11 @@
                     success: function(res) {
                         $("#exampleModal").modal("hide");
                         toastr.success(res);
-                        setTimeout(() => {
+                        // $("#usertable").load(location.href + " #usertable");
+                            setTimeout(() => {
                             window.location.reload();
-                        }, 1000);
+                        }, 500);
+
                     },
                     error: function(xhr) {
                         let errors = xhr.responseJSON.errors;

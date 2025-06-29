@@ -21,14 +21,24 @@ class PostRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'title'=>'required',
-            'slug'=>'required|unique:posts,slug',
-            'description'=>'required',
-            'category_id'=>'required|exists:categories,id',
-            'status'=>'required',
-            'image'=>'required|mimes:png,jpg',
-            'user_id'=>'nullable',
-        ];
+        $method = $this->method();
+        switch ($method) {
+            case 'POST':
+                return [
+                    'title' => 'required',
+                    'description' => 'required',
+                    'category_id' => 'required|exists:categories,id',
+                    'status' => 'required',
+                    'image' => 'required|mimes:png,jpg',
+                ];
+            case 'PUT':
+                return [
+                    'title' => 'required',
+                    'description' => 'required',
+                    'category_id' => 'required|exists:categories,id',
+                    'status' => 'required',
+                    'image' => 'sometimes|mimes:png,jpg',
+                ];
+        }
     }
 }

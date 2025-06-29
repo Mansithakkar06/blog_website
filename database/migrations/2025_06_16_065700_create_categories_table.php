@@ -13,7 +13,7 @@ return new class() extends Migration {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('slug')->unique()->nullable();
             $table->text('image')->nullable();
             $table->enum('status', ['active', 'inactive'])->nullable();
             $table->timestamps();

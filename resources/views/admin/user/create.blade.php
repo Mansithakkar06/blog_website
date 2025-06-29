@@ -2,14 +2,14 @@
      <div class="row">
          <div class="col-md-12 mb-2">
              <label for="name">Name</label><span class="text-danger">*</span>
-             <input type="text" name="name" id="name" class="form-control" value="" required>
+             <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}" required>
              @error('name')
                  <div class="text-danger">{{ $message }}</div>
              @enderror
          </div>
          <div class="col-md-12 mb-2">
              <label for="email">Email</label><span class="text-danger">*</span>
-             <input type="email" name="email" id="email" class="form-control" value="" required>
+             <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}" required>
               @error('email')
                  <div class="text-danger">{{ $message }}</div>
              @enderror
@@ -30,7 +30,7 @@
          </div>
          <div class="col-md-12 mb-2">
              <label for="user_image">Image</label>
-             <input type="file" name="image" id="image" class="form-control">
+             <input type="file" name="image" id="image" value="{{old('image')}}" class="form-control">
               @error('image')
                  <div class="text-danger">{{ $message }}</div>
              @enderror

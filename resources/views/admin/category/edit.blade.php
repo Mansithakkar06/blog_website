@@ -6,10 +6,6 @@
             <input type="text" name="name" id="name" value="{{ $category->name }}" class="form-control" required>
         </div>
          <div class="col-md-12 mb-2">
-            <label for="slug">Slug</label><span class="text-danger">*</span>
-            <input type="text" name="slug" id="slug" value="{{ $category->slug }}" class="form-control" required>
-        </div>
-         <div class="col-md-12 mb-2">
             <label for="image">Image</label>
             <input type="file" name="image" id="image" value="{{ $category->image }}" class="form-control">
         </div>

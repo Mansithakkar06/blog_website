@@ -18,3 +18,6 @@ $(".openModal").on("click", function () {
     });
 });
 
+$(".select2").select2({
+    minimumResultsForSearch: 5,
+ });
