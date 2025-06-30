@@ -22,15 +22,24 @@
                         <td>{{ $post->title }}</td>
                         <td><img src="{{ asset('storage/' . $post->image) }}" alt="" height="50"
                                 width="50">
-                            </td>
-                            <td>{{$post->user->name}}</td>
-                            <td>@foreach ($post->categories as $category)
-                              <span class="badge text-bg-dark">{{$category->name}}</span>
-                            @endforeach</td>
-                          <td><span class="badge {{ $post->status=="published"?'text-bg-success':($post->status=='draft'?'text-bg-warning':'text-bg-danger') }} ">{{ $post->status }}</span></td>
-                        <td><a href="{{ route('post.edit', $post->id) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a> <a
-                                href="#" class="btn btn-danger btn-sm postdlt"
-                                data-id="{{ $post->id }}"><i class="fa fa-trash" aria-hidden="true"></i></a> <a href="#" class="btn btn-sm postview"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                        </td>
+                        <td>{{ $post->user->name }}</td>
+                        <td>
+                            @foreach ($post->categories as $category)
+                                <span class="badge text-bg-dark">{{ $category->name }}</span>
+                            @endforeach
+                        </td>
+                        <td><span
+                                class="badge {{ $post->status == 'published' ? 'text-bg-success' : ($post->status == 'draft' ? 'text-bg-warning' : 'text-bg-danger') }} ">{{ $post->status }}</span>
+                        </td>
+                        <td>
+                            <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success btn-sm"><i
+                                    class="fas fa-edit"></i></a>
+                            <a href="#" class="btn btn-danger btn-sm postdlt" data-id="{{ $post->id }}"><i
+                                    class="fa fa-trash" aria-hidden="true"></i></a>
+                            <a href="" class="btn btn-sm postview openModal" data-toggle="modal" data-id="{{ $post->id }}" data-url="{{ route('post.show',$post->id) }}"  data-title="{{ $post->title }}" data-type="GET" ><i
+                                    class="fa fa-eye" aria-hidden="true"></i></a>
+                        </td>
 
                     </tr>
                 @endforeach
@@ -65,9 +74,9 @@
                             success: function(res) {
                                 toastr.success(res);
                                 // $("#posttable").load(location.href + " #posttable");
-                                    setTimeout(() => {
-                            window.location.reload();
-                        }, 500);
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 500);
                             },
                             error: function(res) {
                                 toastr.error(res);
@@ -75,9 +84,20 @@
                         })
                     }
                 })
-
-
             })
+            // $(document).on("click",".postview",function(){
+            //     let id=$(this).data("id");
+            //     let url="{{ route('post.show','/id') }}";
+            //     url=url.replace('/id',id);
+            //     $.ajax({
+            //         type:"GET",
+            //         url:url,
+            //         success:function(res){
+            //             console.log(res);
+            //         }
+            //     })
+
+            // })
         </script>
     @endpush
 </x-admin.master>
