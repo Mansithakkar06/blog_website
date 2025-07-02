@@ -19,8 +19,18 @@ class PostController extends Controller
     public function index()
     {
         try {
-            $posts = Post::with('categories','user')->get();
-            return view('admin.post.index', compact('posts'));
+            $sort_by = request('sort_by', 'id');
+            $direction = request('direction', 'asc');
+            $allowedSorts = ['id', 'title','status'];
+            $allowedDirections = ['asc', 'desc'];
+
+            $sort_by = in_array($sort_by, $allowedSorts) ? $sort_by : 'id';
+            $direction = in_array($direction, $allowedDirections) ? $direction : 'asc';
+
+            $posts = Post::with('categories', 'user')
+                ->orderBy($sort_by, $direction)
+                ->get();
+            return view('admin.post.index', compact('posts','sort_by','direction'));
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -64,8 +74,8 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $post=Post::whereId($id)->first();
-        return view('admin.post.show',compact('post'));
+        $post = Post::whereId($id)->first();
+        return view('admin.post.show', compact('post'));
     }
 
     /**

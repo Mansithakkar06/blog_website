@@ -6,14 +6,33 @@
     <table class="table table-bordered" id="posttable">
         <thead class="thead-light">
             <tr>
-                <th scope="col">id</th>
-                <th scope="col">Title</th>
+                <th scope="col">
+                    id
+                    <span class="text-sm float-end">
+                        <a href="{{ route('post.index',['sort_by'=>'id','direction'=>'asc']) }}" style="color: gray;" class="{{$sort_by=='id' && $direction=='asc' ? 'text-muted':''}}"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="{{ route('post.index',['sort_by'=>'id','direction'=>'desc']) }}" style="color: gray;" class="{{$sort_by=='id' && $direction=='desc' ? 'text-muted':''}}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </span>
+                 </th>
+                <th scope="col" style="width:25%;">
+                    Title
+                     <span class="text-sm float-end">
+                        <a href="{{ route('post.index',['sort_by'=>'title','direction'=>'asc']) }}" class="{{$sort_by=='title' && $direction=='asc' ? 'text-muted':''}}" style="color: gray;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="{{ route('post.index',['sort_by'=>'title','direction'=>'desc']) }}" style="color: gray;" class="{{$sort_by=='title' && $direction=='desc' ? 'text-muted':''}}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </span>
+                </th>
                 <th scope="col">image</th>
                 <th scope="col">Created By</th>
                 <th scope="col">Category</th>
-                <th scope="col">Status</th>
+                <th scope="col">
+                    Status
+                     <span class="text-sm float-end">
+                        <a href="{{ route('post.index',['sort_by'=>'status','direction'=>'asc']) }}" class="{{$sort_by=='status' && $direction=='asc' ? 'text-muted':''}}" style="color: gray;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="{{ route('post.index',['sort_by'=>'status','direction'=>'desc']) }}" style="color: gray;" class="{{$sort_by=='status' && $direction=='desc' ? 'text-muted':''}}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </span>
+                </th>
                 <th scope="col">Action</th>
             </tr>
+        </thead>
         <tbody>
             @if (count($posts) != 0)
                 @foreach ($posts as $post)
