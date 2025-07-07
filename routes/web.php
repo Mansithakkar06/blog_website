@@ -29,6 +29,7 @@ Route::group([
 
 Route::get('/',[AuthController::class,'loginindex'])->name('login.index');
 Route::get('register',[AuthController::class,'registerindex'])->name('register.index');
-Route::get('forgot-password',[AuthController::class,'forgotindex'])->name('forgot-password.index');
 Route::post('attempt-register',[AuthController::class,'attempt_register'])->name('register.attempt');
 Route::post('attempt-login',[AuthController::class,'attempt_login'])->name('login.attempt');
+Route::get('forgot-password',[AuthController::class,'forgotindex'])->name('forgot-password.index');
+Route::post('send-resetlink',[AuthController::class,'send_resetlink'])->name('send-resetlink');

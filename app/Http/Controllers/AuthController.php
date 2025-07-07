@@ -48,6 +48,10 @@ class AuthController extends Controller
     {
         return view('authentication.forgot-password');
     }
+    public function send_resetlink(Request $request)
+    {
+        $request->validate(['email'=>'required|email']);
+    }
     public function logout(){
         Auth::logout();
         return redirect('/');
