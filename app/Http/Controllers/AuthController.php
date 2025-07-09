@@ -5,8 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+
 
 class AuthController extends Controller
 {
@@ -16,21 +21,17 @@ class AuthController extends Controller
     }
     public function attempt_login(LoginRequest $request)
     {
-        $attributes=$request->only('email','password');
-        if(Auth::attempt($attributes))
-        {
-            if(!Auth::user()->status=='active')
-            {
+        $attributes = $request->only('email', 'password');
+        if (Auth::attempt($attributes)) {
+            if (!Auth::user()->status == 'active') {
                 Auth::logout();
                 $request->session()->flush();
-                return redirect('/')->with('error','Login failed');
+                return redirect('/')->with('error', 'Login failed');
+            } else {
+                return redirect('/dashboard')->with('success', 'Welcome');
             }
-            else{
-                return redirect('/dashboard')->with('success','Welcome');
-            }
-        }
-        else{
-            return redirect('/')->with('error','Invalid Credentials');
+        } else {
+            return redirect('/')->with('error', 'Invalid Credentials');
         }
     }
     public function registerindex()
@@ -39,10 +40,10 @@ class AuthController extends Controller
     }
     public function attempt_register(RegisterRequest $request)
     {
-        $attributes=$request->validated();
-        $user=User::create($attributes);
+        $attributes = $request->validated();
+        $user = User::create($attributes);
         Auth::login($user);
-        return redirect('/dashboard')->with('success','Welcome');
+        return redirect('/dashboard')->with('success', 'Welcome');
     }
     public function forgotindex()
     {
@@ -50,9 +51,45 @@ class AuthController extends Controller
     }
     public function send_resetlink(Request $request)
     {
-        $request->validate(['email'=>'required|email']);
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ]);
+        $status = Password::sendResetLink($request->only('email'));
+        return $status === Password::ResetLinkSent
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
-    public function logout(){
+    public function reset_password(string $token)
+    {
+        return view('authentication.reset-password', ['token' => $token]);
+    }
+    public  function update_password(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PasswordReset
+            ? redirect()->route('login.index')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
+    }
+    public function logout()
+    {
         Auth::logout();
         return redirect('/');
     }
