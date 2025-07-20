@@ -26,12 +26,12 @@ class AuthController extends Controller
             if (!Auth::user()->status == 'active') {
                 Auth::logout();
                 $request->session()->flush();
-                return redirect('/')->with('error', 'Login failed');
+                return redirect()->route('login.index')->with('error', 'Login failed');
             } else {
-                return redirect('/dashboard')->with('success', 'Welcome');
+                return redirect()->route('dashboard')->with('success', 'Welcome');
             }
         } else {
-            return redirect('/')->with('error', 'Invalid Credentials');
+            return redirect()->route('login.index')->with('error', 'Invalid Credentials');
         }
     }
     public function registerindex()
@@ -43,7 +43,7 @@ class AuthController extends Controller
         $attributes = $request->validated();
         $user = User::create($attributes);
         Auth::login($user);
-        return redirect('/dashboard')->with('success', 'Welcome');
+        return redirect()->route('dashboard')->with('success', 'Welcome');
     }
     public function forgotindex()
     {
@@ -91,6 +91,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/');
+        return redirect()->route('login.index');
     }
 }

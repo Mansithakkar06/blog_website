@@ -12,7 +12,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-           <x-admin.menu-items title="Dashboard" icon="tachometer-alt" url="/" path="/"/>
+           <x-admin.menu-items title="Dashboard" icon="tachometer-alt" url="{{route('dashboard')}}" path="dashboard"/>
            <x-admin.menu-items title="User" icon="table" url="{{route('user.index')}}" path="user"/>
            <x-admin.menu-items title="Category" icon="table" url="{{route('category.index')}}" path="category"/>
            <x-admin.menu-items title="Post" icon="table" url="{{route('post.index')}}" path="post"/>
