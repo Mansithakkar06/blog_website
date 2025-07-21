@@ -42,7 +42,7 @@
                         <td><img src="{{ asset('storage/' . $post->image) }}" alt="" height="50"
                                 width="50">
                         </td>
-                        <td>{{ $post->user->name }}</td>
+                        <td>{{ $post->user?->name }}</td>
                         <td>
                             @foreach ($post->categories as $category)
                                 <span class="badge text-bg-dark">{{ $category->name }}</span>

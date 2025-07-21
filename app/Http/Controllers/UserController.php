@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 
@@ -17,13 +18,13 @@ class UserController extends Controller
         try {
             $sort_by = request('sort_by', 'id');
             $direction = request('direction', 'asc');
-            $allowedSorts = ['id', 'name','status'];
+            $allowedSorts = ['id', 'name', 'status'];
             $allowedDirections = ['asc', 'desc'];
 
             $sort_by = in_array($sort_by, $allowedSorts) ? $sort_by : 'id';
             $direction = in_array($direction, $allowedDirections) ? $direction : 'asc';
             $users = User::orderBy($sort_by, $direction)->get();
-            return view('admin.user.index', compact('users','sort_by','direction'));
+            return view('admin.user.index', compact('users', 'sort_by', 'direction'));
         } catch (Exception $e) {
             return $e->getMessage();
         }

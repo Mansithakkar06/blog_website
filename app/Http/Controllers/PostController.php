@@ -21,7 +21,7 @@ class PostController extends Controller
         try {
             $sort_by = request('sort_by', 'id');
             $direction = request('direction', 'asc');
-            $allowedSorts = ['id', 'title','status'];
+            $allowedSorts = ['id', 'title', 'status'];
             $allowedDirections = ['asc', 'desc'];
 
             $sort_by = in_array($sort_by, $allowedSorts) ? $sort_by : 'id';
@@ -30,7 +30,7 @@ class PostController extends Controller
             $posts = Post::with('categories', 'user')
                 ->orderBy($sort_by, $direction)
                 ->get();
-            return view('admin.post.index', compact('posts','sort_by','direction'));
+            return view('admin.post.index', compact('posts', 'sort_by', 'direction'));
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -60,7 +60,7 @@ class PostController extends Controller
             unset($attributes['category_id']);
             $attributes['slug'] = Str::slug($request->title);
             $attributes['image'] = $request->file('image')->store("images/post", "public");
-            $attributes['user_id'] = Auth::user();
+            $attributes['user_id'] = Auth::id();
             $post = Post::create($attributes);
             $post->categories()->attach($request->category_id);
             return redirect('post')->with("success", "Post Added Successfully");
@@ -109,6 +109,7 @@ class PostController extends Controller
                 }
                 $attributes['image'] = $request->file('image')->store('images/post', "public");
             }
+            $attributes['user_id'] = Auth::id();
             $post->update($attributes);
             $post->categories()->sync($request->category_id);
             return redirect('post')->with("success", "Post Updated Successfully");

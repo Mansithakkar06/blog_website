@@ -12,7 +12,7 @@
         <!-- Navigation-->
        <x-frontend.navbar/>
         <!-- Page Header-->
-       <x-frontend.header image="{{ request()->is('/')? asset('assets/images/home-bg.jpg'):'' }}" title="{{request()->is('/')?'JustBlogged':''}}" subtitle="{{request()->is('/')? 'A Blog Website by Mansi':''}}" />
+
         <!-- Main Content-->
         <div class="container px-4 px-lg-5">
         </div>

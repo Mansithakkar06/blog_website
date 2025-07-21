@@ -22,8 +22,8 @@ class CategoryController extends Controller
 
         $sort_by = in_array($sort_by, $allowedSorts) ? $sort_by : 'id';
         $direction = in_array($direction, $allowedDirections) ? $direction : 'asc';
-        $categories = Category::orderBy($sort_by,$direction)->get();
-        return view('admin.category.index', compact('categories','sort_by','direction'));
+        $categories = Category::orderBy($sort_by, $direction)->get();
+        return view('admin.category.index', compact('categories', 'sort_by', 'direction'));
     }
 
     /**

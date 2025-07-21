@@ -8,7 +8,7 @@
                     <div class="col">
                         <label for="title">Title</label><span class="text-danger">*</span>
                         <input type="text" name="title" id="title" value="{{ old('title') }}"
-                            class="form-control" required>
+                            class="form-control" minlength="5" maxlength="85" required>
                         @error('title')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
