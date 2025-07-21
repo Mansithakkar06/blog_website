@@ -15,8 +15,15 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::all();
-            return view('admin.user.index', compact('users'));
+            $sort_by = request('sort_by', 'id');
+            $direction = request('direction', 'asc');
+            $allowedSorts = ['id', 'name','status'];
+            $allowedDirections = ['asc', 'desc'];
+
+            $sort_by = in_array($sort_by, $allowedSorts) ? $sort_by : 'id';
+            $direction = in_array($direction, $allowedDirections) ? $direction : 'asc';
+            $users = User::orderBy($sort_by, $direction)->get();
+            return view('admin.user.index', compact('users','sort_by','direction'));
         } catch (Exception $e) {
             return $e->getMessage();
         }

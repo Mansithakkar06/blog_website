@@ -25,6 +25,9 @@
         @elseif (Session::has('error'))
         toastr.error('{{ Session::get('error') }}');
     @endif
+     @if (Session::has('status'))
+        toastr.success('{{Session::get('status')}}');
+        @endif
     </script>
 
 @stack('script')

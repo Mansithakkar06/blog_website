@@ -10,12 +10,30 @@
     <table class="table table-bordered" id="usertable">
         <thead class="thead-light">
             <tr>
-                <th scope="col">id</th>
-                <th scope="col">Name</th>
+                <th scope="col">
+                    id
+                     <span class="text-sm float-end">
+                        <a href="{{ route('user.index',['sort_by'=>'id','direction'=>'asc']) }}" class="{{$sort_by=='id' && $direction=='asc' ? 'text-muted':''}}" style="color: gray;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="{{ route('user.index',['sort_by'=>'id','direction'=>'desc']) }}" style="color: gray;" class="{{$sort_by=='id' && $direction=='desc' ? 'text-muted':''}}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </span>
+                </th>
+                <th scope="col">
+                    Name
+                       <span class="text-sm float-end">
+                        <a href="{{ route('user.index',['sort_by'=>'name','direction'=>'asc']) }}" class="{{$sort_by=='name' && $direction=='asc' ? 'text-muted':''}}" style="color: gray;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="{{ route('user.index',['sort_by'=>'name','direction'=>'desc']) }}" style="color: gray;" class="{{$sort_by=='name' && $direction=='desc' ? 'text-muted':''}}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </span>
+                </th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Image</th>
-                <th scope="col">Status</th>
+                <th scope="col">
+                    Status
+                       <span class="text-sm float-end">
+                        <a href="{{ route('user.index',['sort_by'=>'status','direction'=>'asc']) }}" class="{{$sort_by=='status' && $direction=='asc' ? 'text-muted':''}}" style="color: gray;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="{{ route('user.index',['sort_by'=>'status','direction'=>'desc']) }}" style="color: gray;" class="{{$sort_by=='status' && $direction=='desc' ? 'text-muted':''}}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </span>
+                </th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
