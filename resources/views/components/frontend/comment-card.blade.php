@@ -12,12 +12,15 @@
             $start = Carbon::parse($createdAt);
             $difference = $start->diffInMinutes(Carbon::now());
         @endphp
+        @auth
         <span role="button" class="reply" id="{{ $id }}"
             style="font-size: 14px;color: #4a5661;">Reply</span>
         <span role="button" class="editcmnt mx-1 {{ $difference > 30 ? 'd-none' : '' }}" id="{{ $id }}"
             style="font-size: 14px;color: #4a5661;">Edit</span>
         <span role="button" class="dltcmnt {{ $difference > 30 ? 'd-none' : '' }}" id="{{ $id }}"
             style="font-size: 14px;color: #4a5661;">Delete</span>
+
+        @endauth
         <div class="replyform d-none" id="replyform_{{$id}}" data-id="{{$id}}">
             <div class="input-group mb-3">
                 <input type="text" id="replydescription_{{$id}}" class="form-control replydescription" placeholder="Write your Reply here..."

@@ -3,13 +3,16 @@
         posttitle="{{ $post->title }}" />
     <div class="row d-flex ms-1 justify-content-between">
         <div class="col-md-8">
+
             <div class="likeauthor px-2 mx-1">
+                @auth
                 <span role="button" class="like px-2 ms-3" data-id="{{ $post->id }}">
-                    <i class="{{$liked!=null ? 'fas' : 'far'}} fa-thumbs-up"></i>
+                    <i class="{{ $liked != null ? 'fas' : 'far' }} fa-thumbs-up"></i>
                 </span>
                 <span role="button" class="dislike px-2"><i class="far fa-thumbs-down"
                         data-id="{{ $post->id }}"></i></span>
                 <span class="px-2 cmnt"><a href="#commentSection"><i class="far fa-comment"></i></a></span>
+                @endauth
                 <span class="mx-4" style="font-size: 18px;float: right;"> <img
                         src="{{ asset('storage/' . $post->user->image) }}" width="25" height="25"
                         class="rounded-circle" alt="user image"> <i style="color: #4a5661;">{{ $post->user->name }}</i>
@@ -20,6 +23,7 @@
             </div>
             <div class="commentSection px-2 mx-3 py-1" id="commentSection">
                 <h3>Comments</h3>
+                @auth
                 <div class="commentForm">
                     <div class="input-group mb-3">
                         <input type="text" id="cmntdescription" class="form-control"
@@ -29,6 +33,8 @@
                         </button>
                     </div>
                 </div>
+
+                @endauth
                 <div class="allComments" id="allComments">
                     @forelse ($comments as $comment)
                         <x-frontend.comment-card username="{{ $comment->user->name }}"
@@ -68,8 +74,8 @@
                 let postid = $(this).data("id");
                 let icon = $(this).find(".fa-thumbs-up");
                 icon.toggleClass('far fas');
-                let url = "{{route('frontend.removelike','/id')}}";
-                url=url.replace("/id",postid);
+                let url = "{{ route('frontend.removelike', '/id') }}";
+                url = url.replace("/id", postid);
                 if (icon.hasClass("fas")) {
                     $.ajax({
                         type: "POST",
@@ -82,12 +88,11 @@
                         }
 
                     })
-                }
-                else{
+                } else {
                     $.ajax({
-                        type:"DELETE",
-                        url:url,
-                        success:function(res){
+                        type: "DELETE",
+                        url: url,
+                        success: function(res) {
                             console.log(res);
                         }
                     })
