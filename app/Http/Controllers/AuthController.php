@@ -28,7 +28,7 @@ class AuthController extends Controller
                 $request->session()->flush();
                 return redirect()->route('login.index')->with('error', 'Login failed');
             } else {
-                return redirect()->route('dashboard')->with('success', 'Welcome');
+                return redirect()->route('frontend.index')->with('success', 'Welcome');
             }
         } else {
             return redirect()->route('login.index')->with('error', 'Invalid Credentials');

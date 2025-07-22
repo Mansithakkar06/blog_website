@@ -5,6 +5,7 @@
                  <div class="site-heading">
                      <h1>{{$title}}</h1>
                      <span class="subheading">{{$subtitle}}</span>
+                     <h2 class="posttitle">{{$posttitle}}</h2>
                  </div>
              </div>
          </div>

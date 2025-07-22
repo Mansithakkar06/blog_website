@@ -11,12 +11,16 @@ class Header extends Component
     /**
      * Create a new component instance.
      */
-    public $image, $title, $subtitle;
-    public function __construct($image, $title, $subtitle)
+    public $image;
+    public $title;
+    public $subtitle;
+    public $posttitle;
+    public function __construct($image, $title, $subtitle, $posttitle)
     {
         $this->image = $image;
         $this->title = $title;
         $this->subtitle = $subtitle;
+        $this->posttitle = $posttitle;
     }
 
     /**

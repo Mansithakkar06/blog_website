@@ -24,6 +24,10 @@ Route::group([
 
     Route::resource('category', CategoryController::class);
     Route::resource('post', PostController::class);
+    Route::post('comment', [FrontendController::class, 'comment'])->name('frontend.comment');
+    Route::delete('comment/delete/{id}', [FrontendController::class, 'deletComment'])->name('frontend.deleteComment');
+    Route::post('like', [FrontendController::class, 'like'])->name('frontend.like');
+    Route::delete('removelike/{id}', [FrontendController::class, 'removeLike'])->name('frontend.removelike');
 });
 
 Route::get('login', [AuthController::class, 'loginindex'])->name('login.index');

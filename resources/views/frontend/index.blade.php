@@ -1,6 +1,6 @@
 <x-frontend.master>
     <x-frontend.header image="{{ asset('assets/images/banner1.jpg') }}" title="JustBlogged"
-        subtitle="A Blog Website by Mansi" />
+        subtitle="A Blog Website by Mansi" posttitle="" />
     <div class="row px-3 my-3">
         <div class="col-md-12 my-2">
             <h1 style="text-align: center;color: #4a5661;"><i>Top Categories</i></h1>

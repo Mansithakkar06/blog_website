@@ -1,5 +1,5 @@
 <x-frontend.master>
-      <x-frontend.header image="{{ asset('storage/' . $category->image) }}" title="{{$category->name}}" subtitle="" />
+      <x-frontend.header image="{{ asset('storage/' . $category->image) }}" title="{{$category->name}}" subtitle="" posttitle="" />
        <div class="row px-3">
          @forelse ($posts as $post)
          <div class="col-md-4">
