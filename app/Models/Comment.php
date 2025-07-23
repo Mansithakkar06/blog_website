@@ -15,4 +15,8 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
+    public function reply()
+    {
+        return $this->hasMany(Comment::class, 'reply_id')->with('reply', 'user');
+    }
 }

@@ -11,8 +11,8 @@ class CommentCard extends Component
     /**
      * Create a new component instance.
      */
-    public $userimage, $username, $description, $id, $createdAt, $postid;
-    public function __construct($userimage, $username, $description, $id, $createdAt, $postid)
+    public $userimage, $username, $description, $id, $createdAt, $postid, $replies, $userid;
+    public function __construct($userimage, $username, $description, $id, $createdAt, $postid, $replies, $userid)
     {
         $this->username = $username;
         $this->userimage = $userimage;
@@ -20,6 +20,8 @@ class CommentCard extends Component
         $this->id = $id;
         $this->createdAt = $createdAt;
         $this->postid = $postid;
+        $this->replies = $replies;
+        $this->userid = $userid;
     }
 
     /**

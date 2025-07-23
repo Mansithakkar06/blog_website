@@ -29,10 +29,27 @@ class FrontendController extends Controller
     }
     public function post(Post $post)
     {
-        $post = $post->load('user');
-        $comments = Comment::with('user')->whereStatus('approved')->where("post_id", $post->id)->where('reply_id', null)->latest()->get();
-        $liked = Comment::where('user_id', Auth::id())->where("post_id", $post->id)->first();
-        return view('frontend.post', compact('post', 'comments', 'liked'));
+        $post = $post->load('user', 'categories');
+        $comments = Comment::with([
+            'user',
+            'reply' => function ($q) use ($post) {
+                $q->whereStatus('approved')->where("post_id", $post->id);
+            }
+        ])->whereStatus('approved')->where("post_id", $post->id)->where('reply_id', null)->latest()->get();
+        $cmntscount = $this->getCmntsCount($post->id);
+        $likescount = $this->getLikeCount($post->id);
+        $likes = Like::where('post_id', $post->id)->where('user_id', Auth::id());
+        $dislike = clone $likes;
+        $liked = $likes->where('like', 1)->first();
+        $disliked = $dislike->where('like', 0)->first();
+        $categoryIds = $post->categories->pluck('id')->toArray();
+        $topposts = Post::where('id', '!=', $post->id)->whereHas('categories', function ($q) use ($categoryIds) {
+            $q->whereIn('id', $categoryIds);
+        })->withCount('likes')
+            ->orderBy("likes_count", "desc")
+            ->limit(5)
+            ->get();
+        return view('frontend.post', compact('post', 'comments', 'cmntscount', 'likescount', 'liked', 'disliked', 'topposts'));
     }
     public function comment(Request $request)
     {
@@ -44,14 +61,28 @@ class FrontendController extends Controller
         $attributes['user_id'] = Auth::id();
         $attributes['status'] = "approved";
         Comment::create($attributes);
-        return response()->json("commment addded");
+        $cmntscount = $this->getCmntsCount($attributes['post_id']);
+        return response()->json($cmntscount);
     }
-    public function deletComment(string $id)
+    public function editComment($id)
+    {
+        $comment = Comment::find($id);
+        return response()->json($comment->description);
+    }
+    public function updateComment(Request $request)
+    {
+        $comment = Comment::find($request['cmnt_id']);
+        $comment->update(['description' => $request['description']]);
+        return response()->json("updated");
+    }
+    public function deletComment($id)
     {
         try {
             $comment = Comment::find($id);
+            $postid = $comment->post_id;
             $comment->delete();
-            return response()->json("comment deleted");
+            $cmntscount = $this->getCmntsCount($postid);
+            return response()->json($cmntscount);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -63,13 +94,50 @@ class FrontendController extends Controller
         ]);
         $attributes['user_id'] = Auth::id();
         $attributes['like'] = 1;
-        Like::create($attributes);
-        return response()->json("liked");
+        $like = Like::where("post_id", $attributes['post_id'])->where("user_id", $attributes['user_id'])->first();
+        if ($request['status'] == 1) {
+            if ($like == null) {
+                Like::create($attributes);
+            } else {
+                $like->update(['like' => 1]);
+            }
+        } else {
+            $like->delete();
+        }
+        $likescount = $this->getLikeCount($attributes['post_id']);
+        return response()->json($likescount);
     }
-    public function removeLike(string $id)
+    public function dislike(Request $request)
     {
-        $like = Like::where("post_id", $id)->where("user_id", Auth::id())->first();
-        $like->delete();
-        return response()->json("like removed");
+        $attributes = $request->validate([
+            'post_id' => 'required|exists:posts,id',
+        ]);
+        $attributes['user_id'] = Auth::id();
+        $attributes['like'] = 0;
+        $like = Like::where("post_id", $attributes['post_id'])->where("user_id", $attributes['user_id'])->first();
+        if ($request['status'] == 1) {
+            if ($like == null) {
+                Like::create($attributes);
+            } else {
+                $like->update(['like' => 0]);
+            }
+        } else {
+            $like->delete();
+        }
+        $likescount = $this->getLikeCount($attributes['post_id']);
+        return response()->json($likescount);
+    }
+    public function getLikeCount($id)
+    {
+        $likes = Like::where('like', 1)->where('post_id', $id)->count();
+        $dislikes = Like::where('like', 0)->where('post_id', $id)->count();
+        return [
+            'likescount' => $likes,
+            'dislikecount' => $dislikes,
+        ];
+    }
+    public function getCmntsCount($id)
+    {
+        return Comment::where("post_id", $id)->whereStatus("approved")->count();
     }
 }
