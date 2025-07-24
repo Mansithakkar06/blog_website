@@ -17,6 +17,6 @@ class Comment extends Model
     }
     public function reply()
     {
-        return $this->hasMany(Comment::class, 'reply_id')->with('reply', 'user');
+        return $this->hasMany(Comment::class, 'reply_id')->whereStatus("approved")->with('reply', 'user');
     }
 }

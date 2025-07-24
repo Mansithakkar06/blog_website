@@ -27,6 +27,14 @@ class FrontendController extends Controller
         $posts = $category->posts()->get();
         return view('frontend.category', compact('category', 'posts'));
     }
+    public function contact()
+    {
+        return view('frontend.contact');
+    }
+    public function about()
+    {
+        return view('frontend.about');
+    }
     public function post(Post $post)
     {
         $post = $post->load('user', 'categories');

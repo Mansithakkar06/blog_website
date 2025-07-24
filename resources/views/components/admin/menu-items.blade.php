@@ -1,6 +1,6 @@
   <li class="nav-item {{ request()->is($path)?'active':''}}">
       <a class="nav-link" href="{{$url}}">
-          <i class="fas fa-fw fa-{{$icon}}"></i>
+          <i class="fa fa-{{$icon}}"></i>
           <span>{{$title}}</span></a>
   </li>
   <!-- Divider -->
