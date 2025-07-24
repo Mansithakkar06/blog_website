@@ -38,9 +38,8 @@
                     <div class="col">
                         <label for="status">Status</label><span class="text-danger">*</span>
                         <select name="status" id="status" class="form-control" required>
-                            <option value="">Select Status</option>
                             <option value="draft" {{$post->status=='draft'?'selected':''}}>Draft</option>
-                            <option value="published {{$post->status=='published'?'selected':''}}">Published</option>
+                            <option value="published" {{$post->status=='published'?'selected':'' }}>Published</option>
                             <option value="unpublished" {{$post->status=='unpublished'?'selected':''}}>Unpublished</option>
                         </select>
                     </div>

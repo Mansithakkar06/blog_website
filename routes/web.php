@@ -26,8 +26,8 @@ Route::group([
     Route::resource('post', PostController::class);
     Route::get('comment/index', [CommentController::class, 'index'])->name('comment.index');
     Route::post('comment/update', [CommentController::class, 'update'])->name('comment.update');
-    Route::post('like', [FrontendController::class, 'like'])->name('frontend.like');
-    Route::post('dislike', [FrontendController::class, 'dislike'])->name('frontend.dislike');
+    Route::post('frontend/like', [FrontendController::class, 'like'])->name('frontend.like');
+    Route::post('frontend/dislike', [FrontendController::class, 'dislike'])->name('frontend.dislike');
     Route::post('frontend/comment', [FrontendController::class, 'comment'])->name('frontend.comment');
     Route::delete('frontend/comment/delete/{id}', [FrontendController::class, 'deletComment'])->name('frontend.deleteComment');
     Route::get('frontend/comment/edit/{id}', [FrontendController::class, 'editComment'])->name('frontend.editcomment');
@@ -43,7 +43,7 @@ Route::post('send-resetlink', [AuthController::class, 'send_resetlink'])->name('
 Route::get('reset-password/{token}', [AuthController::class, 'reset_password'])->name('password.reset');
 Route::post('reset-password', [AuthController::class, 'update_password'])->name('password.update');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
-Route::get('category/{category:slug}', [FrontendController::class, 'category'])->name('frontend.category');
-Route::get('post/{post:slug}', [FrontendController::class, 'post'])->name('frontend.post');
+Route::get('frontend/category/{category:slug}', [FrontendController::class, 'category'])->name('frontend.category');
+Route::get('frontend/post/{post:slug}', [FrontendController::class, 'post'])->name('frontend.post');
 Route::get('frontend/contact', [FrontendController::class, 'contact'])->name('frontend.contact');
 Route::get('frontend/about', [FrontendController::class, 'about'])->name('frontend.about');

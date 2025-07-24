@@ -9,5 +9,6 @@
         @empty
             <div class="col-md-12 p-3 m-3"><h2 style="text-align: center;color: #4a5661;">No Post to show!!</h2></div>
         @endforelse
+        {{$posts->links()}}
     </div>
 </x-frontend.master>

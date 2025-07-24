@@ -113,6 +113,10 @@
                     type: "POST",
                     url: url,
                     data: formData,
+                    contentType: 'multipart/form-data',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     success: function(res) {
                         $("#exampleModal").modal("hide");
                         toastr.success(res);

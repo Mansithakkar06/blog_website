@@ -14,7 +14,7 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('categories', 'user')->whereStatus('published')->latest()->get();
+        $posts = Post::with('categories', 'user')->whereStatus('published')->latest()->paginate(6);
         $topcategories = Category::withCount('posts')->orderBy('posts_count', 'desc')->limit(3)->get();
         return view('frontend.index', compact('posts', 'topcategories'));
     }
@@ -24,7 +24,7 @@ class FrontendController extends Controller
     }
     public function category(Category $category)
     {
-        $posts = $category->posts()->get();
+        $posts = $category->posts()->paginate(6);
         return view('frontend.category', compact('category', 'posts'));
     }
     public function contact()
@@ -33,7 +33,9 @@ class FrontendController extends Controller
     }
     public function about()
     {
-        return view('frontend.about');
+        $user = Auth::user();
+        $posts = $user->posts()->paginate(3);
+        return view('frontend.about', compact('user', 'posts'));
     }
     public function post(Post $post)
     {

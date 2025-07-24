@@ -104,6 +104,10 @@
                     }
                 })
             })
+            $(document).on("click",".readmore",function(){
+                $(".full-text").removeClass("d-none");
+                $(".short-text").addClass("d-none");
+            })
             // $(document).on("click",".postview",function(){
             //     let id=$(this).data("id");
             //     let url="{{ route('post.show','/id') }}";
